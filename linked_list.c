@@ -173,7 +173,7 @@ Node* free_nodes(){
 }
 
 int main(){
-    int arr[10] = {2, 5, 7, 12, 4, 3, 6, 18, 20, 3};
+    int arr[10] = {2, 5, 7, 12, 4, 3, 6, 18, 20, 10};
     for (int i = 0; i < 10; i++){
         Node* new = new_node(arr[i]);
         insert_node(new);
@@ -190,6 +190,5 @@ int main(){
     }
 
     print_list();
-    free(temp);
     free_nodes();
 }
