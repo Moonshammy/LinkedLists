@@ -7,7 +7,7 @@ static Node* head;
 static int list_size;
 
 Node* new_node(int data){
-    Node* newNode = calloc(1, sizeof(Node*));
+    Node* newNode = calloc(1, sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
 }
@@ -53,14 +53,13 @@ void insert_node_index(Node* node, int index){
 void insert_node_sorted(Node* node){
     Node* curr = head;
     Node* prev;
-
-    //If node at 0 case;
-    if(head->data > node-> data){
-        node->next = head;
+    if (head == NULL){
         head = node;
         list_size++;
     }
-    else if (head == NULL){
+    //If node at 0 case;
+    else if(head->data > node->data){
+        node->next = head;
         head = node;
         list_size++;
     }
@@ -75,22 +74,19 @@ void insert_node_sorted(Node* node){
     }
 }
 
-int get_list_size(){
-    return list_size;
-}
-
-void print_list(){
-    Node* curr = head;
-    int i = 0;
-    while(curr != NULL){
-        printf("index at %d = %d\n", i, curr->data);
-        i++;
-        curr = curr->next;
-    }
-}
-
 //On success, return Node. On failure return NULL
 //Any Node not re-inserted MUST BE free(node);
+
+Node* pop_node(){
+    if (head != NULL){
+        Node* node = head;
+        head = head->next;
+        list_size--;
+        return node;
+    }
+    return NULL;
+}
+
 Node* remove_node(Node* node){
     Node* curr = head;
     Node* prev;
@@ -115,7 +111,7 @@ Node* remove_node_index(int index){
     Node* curr = head;
     Node* prev;
     if (head == NULL){
-        printf("No Nodes in list\n");
+        printf("No Nodes in the list\n");
         return NULL;
     }
     else if (index == 0){
@@ -124,7 +120,7 @@ Node* remove_node_index(int index){
         return curr;
     }
     else if (get_list_size() < index){
-        printf("Index %d out of range\n", index);
+        printf("Index %d is out of range\n", index);
         return NULL;
     }
     for (int i = 0; i < index; i++){
@@ -136,18 +132,34 @@ Node* remove_node_index(int index){
     return curr;
 }
 
-Node* remove_node_data(int data);
-
-Node* remove_first_node(){
-    if (head != NULL){
-        Node* node = head;
+Node* remove_node_data(int data){
+    Node* curr = head;
+    Node* prev;
+    if (head == NULL){
+        printf("No data in list");
+        return NULL;
+    }
+    else if(head->data == data){
         head = head->next;
         list_size--;
-        return node;
+        return curr;
     }
-    return NULL;
+    else{
+        while (curr->data != data){
+            prev = curr;
+            curr = curr->next;
+            if(curr== NULL){
+                printf("Data: %d, was not in the list\n", data);
+                return NULL;
+            }
+        }
+        prev->next = curr->next;
+        list_size--;
+        return curr;
+    }
+}
 
-} //Return removed Node
+//Return removed Node
 Node* remove_last_node(){
     Node* curr = head;
     Node* prev;
@@ -163,11 +175,25 @@ Node* remove_last_node(){
     return NULL;
 }
 
-Node* free_nodes(){
+int get_list_size(){
+    return list_size;
+}
+
+void print_list(){
+    Node* curr = head;
+    int i = 0;
+    while(curr != NULL){
+        printf("index at %d = %d\n", i, curr->data);
+        i++;
+        curr = curr->next;
+    }
+}
+
+void free_nodes(){
     Node* freeNode;
     freeNode = head;
     while (freeNode != NULL){
-        freeNode = remove_first_node();
+        freeNode = pop_node();
         free(freeNode);
     }
 }
@@ -177,16 +203,6 @@ int main(){
     for (int i = 0; i < 10; i++){
         Node* new = new_node(arr[i]);
         insert_node(new);
-    }
-
-    Node* temp;
-    for(int i = 0; i < get_list_size(); i++){
-        temp = remove_node_index(i);
-        printf("Node removed at %d\n", i);
-        insert_node_sorted(temp);
-        printf("Node at %d was reinserted\n", i);
-        print_list();
-        printf("Size: %d\n", get_list_size());
     }
 
     print_list();
