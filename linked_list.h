@@ -13,7 +13,7 @@ Node* pop_node(); //Return removed Node
 Node* remove_node(Node* node);
 Node* remove_node_index(int index);
 Node* remove_node_data(int data);
-Node* remove_last_node();
+Node* pop_last_node();
 
 
 int get_list_size();

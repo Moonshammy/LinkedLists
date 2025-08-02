@@ -10,10 +10,11 @@ void insert_node_sorted(Node* node);
 
 //On success, return Node. On failure return NULL
 Node* pop_node(); //Return removed Node
+Node* pop_last_node();
 Node* remove_node(Node* node);
 Node* remove_node_index(int index);
 Node* remove_node_data(int data);
-Node* remove_last_node();
+
 
 
 int get_list_size();

@@ -99,10 +99,76 @@ Node* pop_node(){
     return curr;
 }
 
-Node* remove_node(Node* node);
-Node* remove_node_index(int index);
+Node* pop_last_node(){
+    Node* curr = head;
+    Node* prev;
+    if(head == NULL){
+        printf("Error: Cannot pop, no nodes in list");
+        return NULL;
+    }
+    if (head == tail){
+        head == NULL;
+        tail == NULL;
+        size--;
+        return NULL;
+    }
+    while(curr != tail){
+        prev = curr;
+        curr = curr->next; 
+    }
+    tail = prev;
+    tail->next = NULL;
+    size--;
+    return curr;
+}
+
+Node* remove_node(Node* node){
+    Node* curr = head;
+    Node* prev;
+    if (head == NULL){
+        printf("Error: Cannot remove Node, no nodes in list");
+        return NULL;
+    }
+    else if (head == node){
+        head = head->next;
+        size--;
+        return curr;
+    }
+    else if (head == tail){
+        head == NULL;
+        tail == NULL;
+        size--;
+        return curr;
+    }
+    while (curr != node && curr!= tail){
+        prev = curr;
+        curr = curr->next;
+    }
+    if(curr == tail){
+        tail = prev;
+        tail->next = NULL;
+        size--;
+        return curr;
+    }
+    prev->next = curr->next;
+    size--;
+    return curr;
+}
+
+
+//TODO
+Node* remove_node_index(int index){
+    if (head == NULL){
+
+    }
+    else if (index > get_list_size()){
+        printf("Error: Index out of range for remove node index");
+        return NULL;
+    }
+}
+
+//TODO
 Node* remove_node_data(int data);
-Node* remove_last_node();
 
 
 int get_list_size(){

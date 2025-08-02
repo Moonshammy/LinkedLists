@@ -87,6 +87,28 @@ Node* pop_node(){
     return NULL;
 }
 
+//Return removed Node
+Node* pop_last_node(){
+    Node* curr = head;
+    Node* prev;
+    if (head == NULL){
+        return NULL;
+    }
+    else if (head->next == NULL){
+        head == NULL;
+        list_size--;
+        return NULL;
+    }
+
+    while (curr->next != NULL){
+        prev = curr;
+        curr = curr->next;
+    }
+    prev->next = NULL;
+    list_size--;
+    return curr;
+}
+
 Node* remove_node(Node* node){
     Node* curr = head;
     Node* prev;
@@ -157,22 +179,6 @@ Node* remove_node_data(int data){
         list_size--;
         return curr;
     }
-}
-
-//Return removed Node
-Node* remove_last_node(){
-    Node* curr = head;
-    Node* prev;
-    if (head != NULL){
-        while (curr->next != NULL){
-            prev = curr;
-            curr = curr->next;
-        }
-        prev->next = NULL;
-        list_size--;
-        return curr;
-    }
-    return NULL;
 }
 
 int get_list_size(){
