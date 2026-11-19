@@ -3,6 +3,11 @@
 
 #include "linked_list_tail.h"
 
+typedef struct Node{
+    int data;
+    struct node* next;
+} Node;
+
 static Node* head;
 static Node* tail;
 static int size;
@@ -190,16 +195,4 @@ void free_nodes(){
         freeNode = pop_node();
         free(freeNode);
     }
-}
-
-int main(){
-    int arr[10] = {2, 5, 7, 12, 4, 3, 6, 18, 20};
-    for (int i = 0; i < 9; i++){
-        Node* new = new_node(arr[i]);
-        insert_node(new);
-    }
-
-    print_list();
-    printf("%d\n", get_list_size());
-    free_nodes();
 }

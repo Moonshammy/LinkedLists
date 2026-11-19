@@ -1,7 +1,4 @@
-typedef struct node{
-    int data;
-    struct node* next;
-} Node;
+typedef struct Node Node;
 
 Node* new_node(int data); //Returns new node
 void insert_node(Node* node);
