@@ -60,28 +60,51 @@ int ll_insert(Linked_List* list, int index, int data){
     if (index >= (int)list->size || index < 0){
         return -1;
     }
-    if (index || data){}
-    return -1;
+    LL_Node* curr = list->head;
+    for (int i = 1; i < index; i++){
+        curr = curr->next;
+    }
+    curr->data = data;
+    return 0;
 }
 
 size_t ll_get_size(Linked_List* list){
+    if(!list){
+        return -1;
+    }
     return list->size;
 }
 
-void ll_print(Linked_List* list){
+char* ll_to_string(Linked_List* list){
     if (!list){
+        return "";
+    }
+    if (list->head == NULL){
+        return "[]";
+    }
+    size_t string_size = list->size * 2 + 1; //*2 adds space for commas (+1 size, use for left bracked), +1 for right bracket 
+    char* string = calloc(string_size, sizeof(char));
+    LL_Node* curr = list->head;
+    string[0] = '[';
+    for(size_t i = 1; i < string_size; i+=2){
+        string[i] = curr->data+48;
+        string[i+1] = ',';
+        curr = curr->next; 
+    }
+    string[string_size - 1] = ']';
+    return string;
+}
+
+void ll_destroy(Linked_List* list){
+    if(!list){
         return;
     }
     LL_Node* curr = list->head;
-    printf("[");
-    while(curr != NULL){
-        if (curr->next == NULL){
-            printf("%d", curr->data);
-        }
-        else{
-            printf("%d,", curr->data);
-        }
-        curr = curr->next;
+    LL_Node* tmp;
+    if (curr != NULL){
+        tmp = curr->next;
+        free(curr);
+        curr = tmp;
     }
-    printf("]\n");
+    free(list);
 }
