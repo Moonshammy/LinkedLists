@@ -3,16 +3,17 @@
 
 #include <stdio.h>
 
+typedef struct LL_Node LL_Node;
 typedef struct Linked_List Linked_List;
 
 Linked_List* ll_create(void);
 Linked_List* ll_create_data(int data);
-Node* ll_new_node(int data);
+LL_Node* ll_new_node(int data);
 int ll_push(Linked_List* list, int data);
 int ll_insert(Linked_List* list, int index, int data);
 
-size_t ll_get_size(Linked_List* list);
 
+size_t ll_get_size(Linked_List* list);
 void ll_print(Linked_List* list);
 
 
