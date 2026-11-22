@@ -3,55 +3,57 @@
 
 #include "linked_list.h"
 
-typedef struct Linked_List{
+typedef struct Node{
     int data;
-    Linked_List* next;
-    size_t* size;
+    Node* next;
+} Node;
+typedef struct Linked_List{
+    Node* head;
+    size_t size;
 } Linked_List;
 
 static Linked_List* head;
 static int list_size;
 
 Linked_List* ll_create(void){
-    Linked_List* head = calloc(1, sizeof(Linked_List));
-    head->data = NULL;
-    *head->size = 0;
+    Linked_List* list = calloc(1, sizeof(Linked_List));
+    list->head = NULL;
+    list->size = 0;
+    return list;
 }
 
 Linked_List* ll_create_data(int data){
-    Linked_List *head = calloc(1, sizeof(Linked_List));
-    size_t *size_location = calloc(1, sizeof(size_t));
-    head->size = size_location;
-    *head->size = 1;
+    Linked_List *list = calloc(1, sizeof(Linked_List));
+    Node* head = calloc(1, sizeof(Node));
+    list->size = 1;
     head->next = NULL;
     head->data = data;
-    return head;
+    return list;
 }
 
-Linked_List* ll_new_node(int data){
-    Linked_List* new_node = calloc(1, sizeof(Linked_List));
-    new_node->data = data;
-    new_node->next = NULL;
-    return new_node;
+Node* ll_new_node(int data){
+    Node* node = calloc(1, sizeof(Linked_List));
+    node->data = data;
+    node->next = NULL;
+    return node;
 }
 
 int ll_push(Linked_List* list, int data){
     if (!list){
         return -1;
     }
-    if (list->data == NULL){
-        list->data = data;
-        *list->size = 1;
-        return 0;
+    Node* curr = list->head;
+    Node* node = ll_new_node(data);
+    if (curr == NULL){
+        list->head = node;
     }
-    Linked_List* curr = list;
-    Linked_List* node = ll_new_node(data);
-    node->size = list->size;
-    while(curr->next != NULL){
-        curr = curr->next;
+    else{
+        while(curr->next != NULL){
+            curr = curr->next;
+        }
+        curr->next = node;
     }
-    curr->next = node;
-    *list->size += 1;
+    list->size += 1;
     return 0;
 }
 
@@ -59,7 +61,7 @@ int ll_insert(Linked_List* list, int index, int data){
     if(!list){
         return -1;
     }
-    if (index >= (int)*list->size || index < 0){
+    if (index >= list->size || index < 0){
         return -1;
     }
     if (index || data){}
@@ -74,7 +76,7 @@ void ll_print(Linked_List* list){
     if (!list){
         return;
     }
-    Linked_List* curr = list;
+    Node* curr = list->head;
     printf("[");
     while(curr != NULL){
         if (curr->next == NULL){
