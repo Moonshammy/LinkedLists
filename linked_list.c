@@ -12,7 +12,13 @@ typedef struct Linked_List{
 static Linked_List* head;
 static int list_size;
 
-Linked_List* ll_new(int data){
+Linked_List* ll_create(void){
+    Linked_List* head = calloc(1, sizeof(Linked_List));
+    head->data = NULL;
+    *head->size = 0;
+}
+
+Linked_List* ll_create_data(int data){
     Linked_List *head = calloc(1, sizeof(Linked_List));
     size_t *size_location = calloc(1, sizeof(size_t));
     head->size = size_location;
@@ -32,6 +38,11 @@ Linked_List* ll_new_node(int data){
 int ll_push(Linked_List* list, int data){
     if (!list){
         return -1;
+    }
+    if (list->data == NULL){
+        list->data = data;
+        *list->size = 1;
+        return 0;
     }
     Linked_List* curr = list;
     Linked_List* node = ll_new_node(data);

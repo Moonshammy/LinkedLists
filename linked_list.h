@@ -5,7 +5,6 @@
 
 typedef struct Linked_List Linked_List;
 
-Linked_List* LL_create(void);
 Linked_List* ll_create_data(int data);
 Linked_List* ll_new_node(int data);
 int ll_push(Linked_List* list, int data);
