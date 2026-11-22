@@ -53,6 +53,31 @@ int ll_push(Linked_List* list, int data){
     return 0;
 }
 
+int ll_pop(Linked_List* list, int *out){
+    if (!list){
+        return -1;
+    }
+    if (list->head == NULL){
+        return -1;
+    }
+    LL_Node* curr = list->head;
+    LL_Node* prev = NULL;
+    while(curr->next != NULL){
+        prev = curr;
+        curr = curr->next;
+    }
+    *out = curr->data;
+    if (prev != NULL){
+        prev->next = NULL;
+    }
+    else{
+        list->head = NULL;
+    }
+    free(curr);
+    list->size = list->size - 1;  
+    return 0;  
+}
+
 int ll_insert(Linked_List* list, size_t index, int data){
     if(!list){
         return -1;

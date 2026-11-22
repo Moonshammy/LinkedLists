@@ -151,16 +151,45 @@ void test_get_data(void){
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    size_t size = ll_get_size(list);
     ll_get_data(list, 4, value);
     test_value(4, *value);
     ll_get_data(list, 0, value);
     test_value(0, *value);
     ll_get_data(list, 9, value);
     test_value(9, *value);
+    size_t size = ll_get_size(list);
     test_size(10u, size);
-
 }
+
+void test_pop(void){
+    printf("\nTESTING: test_pop\n");
+    int x = 0;
+    int* value = &x;
+    Linked_List *list = ll_create_data(0);
+    for (int i = 1; i < 10; i++){
+        ll_push(list, i);
+    }
+    ll_pop(list, value);
+    test_value(9, *value);
+    size_t size = ll_get_size(list);
+    test_size(9u, size);
+    for (int i = 0; i < 8; i++){
+        ll_pop(list, value);
+    }
+    size = ll_get_size(list);
+    test_size(1u, *value);
+    test_value(1, *value);
+
+    ll_pop(list, value);
+    size = ll_get_size(list);
+    test_size(0u, size);
+    test_value(0, *value);
+    x = ll_pop(list, value);
+    test_bad_input(-1, x);
+    x = ll_pop(NULL, value);
+    test_bad_input(-1, x);
+}
+
 
 int main(void){
     test_empty_list();
@@ -171,4 +200,5 @@ int main(void){
     test_insert_head();
     test_insert_end();
     test_get_data();
+    test_pop();
 }
