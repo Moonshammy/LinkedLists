@@ -94,16 +94,44 @@ void test_insert_bad_inputs(void){
 }
 
 void test_insert(void){
+    printf("\nTESTING: test_value_one_list\n");
     Linked_List *list = ll_create_data(0);
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    ll_insert(list, 5, -1);
+    ll_insert(list, 5, 9);
     size_t size = ll_get_size(list);
     char* values = ll_to_string(list);
-    printf("\nTESTING: test_value_one_list\n");
     test_size(10u, size);
-    test_string("[0,1,2,3,-1,5,6,7,8,9]", values);
+    test_string("[0,1,2,3,9,5,6,7,8,9]", values);
+    free(list);
+}
+
+void test_insert_head(void){
+    printf("\nTESTING: test_value_insert_head\n");
+    Linked_List *list = ll_create_data(0);
+    for (int i = 1; i < 10; i++){
+        ll_push(list, i);
+    }
+    ll_insert(list, 0, 9);
+    size_t size = ll_get_size(list);
+    char* values = ll_to_string(list);
+    test_size(10u, size);
+    test_string("[9,1,2,3,4,5,6,7,8,9]", values);
+    free(list);
+}
+
+void test_insert_end(void){
+    printf("\nTESTING: test_value_insert_head\n");
+    Linked_List *list = ll_create_data(0);
+    for (int i = 1; i < 10; i++){
+        ll_push(list, i);
+    }
+    ll_insert(list, 10, 9);
+    size_t size = ll_get_size(list);
+    char* values = ll_to_string(list);
+    test_size(11u, size);
+    test_string("[0,1,2,3,4,5,6,7,8,9,9]", values);
     free(list);
 }
 
@@ -113,4 +141,6 @@ int main(void){
     test_ten_values_initial_zero();
     test_insert_bad_inputs();
     test_insert();
+    test_insert_head();
+    test_insert_end();
 }

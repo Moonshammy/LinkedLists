@@ -57,8 +57,12 @@ int ll_insert(Linked_List* list, int index, int data){
     if(!list){
         return -1;
     }
-    if (index >= (int)list->size || index < 0){
+    if (index > (int)list->size || index < 0){
         return -1;
+    }
+    if (index == (int)list->size){
+        ll_push(list, data);
+        return 0;
     }
     LL_Node* curr = list->head;
     for (int i = 1; i < index; i++){
@@ -75,6 +79,11 @@ size_t ll_get_size(Linked_List* list){
     return list->size;
 }
 
+
+//This function doesn't work. 
+//Any value greater than 10 does not change to a char
+//I'm goint to temporarily leave this be to finish Linked List
+//All values must be between 0 to 9
 char* ll_to_string(Linked_List* list){
     if (!list){
         return "";
