@@ -53,22 +53,40 @@ int ll_push(Linked_List* list, int data){
     return 0;
 }
 
-int ll_insert(Linked_List* list, int index, int data){
+int ll_insert(Linked_List* list, size_t index, int data){
     if(!list){
         return -1;
     }
-    if (index > (int)list->size || index < 0){
+    if (index > list->size){
         return -1;
     }
-    if (index == (int)list->size){
+    if (index == list->size){
         ll_push(list, data);
         return 0;
     }
     LL_Node* curr = list->head;
-    for (int i = 1; i < index; i++){
+    for (size_t i = 1; i < index; i++){
         curr = curr->next;
     }
     curr->data = data;
+    return 0;
+}
+
+int ll_get_data(Linked_List *list, size_t index, int* out){
+    if(!list){
+        return -1;
+    }
+    if (index >= list->size){
+        return -1;
+    }
+    if (list->head == NULL){
+        return -1;
+    }
+    LL_Node* curr = list->head;
+    for (size_t i = 0; i < index; i++){
+        curr = curr->next;
+    }
+    *out = curr->data;
     return 0;
 }
 

@@ -33,6 +33,16 @@ void test_bad_input(int expected, int actual){
     }
 }
 
+void test_value(int expected, int actual){
+    printf("  Testing value: ");
+    if (expected == actual){
+        printf("Passed\n");
+    }
+    else{
+        printf("Failed, expected %d actual: %d\n", expected, actual);
+    }
+}
+
 void test_empty_list(void){
     printf("\nTESTING test_empty_list\n");
     Linked_List *list = ll_create();
@@ -81,15 +91,13 @@ void test_ten_values_initial_value(void){
 
 void test_insert_bad_inputs(void){
     printf("\nTESTING: test_insert_bad_inputs\n");
-    int value = ll_insert(NULL, 0, 0);
+    int value = ll_insert(NULL, 0u, 0);
     test_bad_input(-1, value);
     Linked_List *list = ll_create_data(0);
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    value = ll_insert(list, -1, 0);
-    test_bad_input(-1, value);
-    value = ll_insert(list, 11, 0);
+    value = ll_insert(list, 11u, 0);
     free(list);
 }
 
@@ -99,7 +107,7 @@ void test_insert(void){
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    ll_insert(list, 5, 9);
+    ll_insert(list, 5u, 9);
     size_t size = ll_get_size(list);
     char* values = ll_to_string(list);
     test_size(10u, size);
@@ -113,7 +121,7 @@ void test_insert_head(void){
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    ll_insert(list, 0, 9);
+    ll_insert(list, 0u, 9);
     size_t size = ll_get_size(list);
     char* values = ll_to_string(list);
     test_size(10u, size);
@@ -122,17 +130,36 @@ void test_insert_head(void){
 }
 
 void test_insert_end(void){
-    printf("\nTESTING: test_value_insert_head\n");
+    printf("\nTESTING: test_value_insert_end\n");
     Linked_List *list = ll_create_data(0);
     for (int i = 1; i < 10; i++){
         ll_push(list, i);
     }
-    ll_insert(list, 10, 9);
+    ll_insert(list, 10u, 9);
     size_t size = ll_get_size(list);
     char* values = ll_to_string(list);
     test_size(11u, size);
     test_string("[0,1,2,3,4,5,6,7,8,9,9]", values);
     free(list);
+}
+
+void test_get_data(void){
+    printf("\nTESTING: test_get_data\n");
+    int x = 0;
+    int* value = &x;
+    Linked_List *list = ll_create_data(0);
+    for (int i = 1; i < 10; i++){
+        ll_push(list, i);
+    }
+    size_t size = ll_get_size(list);
+    ll_get_data(list, 4, value);
+    test_value(4, *value);
+    ll_get_data(list, 0, value);
+    test_value(0, *value);
+    ll_get_data(list, 9, value);
+    test_value(9, *value);
+    test_size(10u, size);
+
 }
 
 int main(void){
@@ -143,4 +170,5 @@ int main(void){
     test_insert();
     test_insert_head();
     test_insert_end();
+    test_get_data();
 }
