@@ -3,22 +3,22 @@
 
 #include "linked_list_tail.h"
 
-typedef struct Node{
+typedef struct Linked_List{
     int data;
-    struct node* next;
-} Node;
+    struct Linked_List* next;
+} Linked_List;
 
-static Node* head;
-static Node* tail;
+static Linked_List* head;
+static Linked_List* tail;
 static int size;
 
-Node* new_node(int data){
-    Node* new = calloc(1, sizeof(Node));
+Linked_List* ll_new_node(int data){
+    Linked_List* new = calloc(1, sizeof(Linked_List));
     new->data = data;
     new->next = NULL;
     return new;
 }
-void insert_node(Node* node){
+void insert_node(Linked_List* node){
     if (head == NULL){
         head = node;
         tail = node;
@@ -32,9 +32,9 @@ void insert_node(Node* node){
     }
 }
 
-void insert_node_index(Node* node, int index){
-    Node* curr = head;
-    Node* prev;
+void insert_node_index(Linked_List* node, int index){
+    Linked_List* curr = head;
+    Linked_List* prev;
     if (index > get_list_size()){
         printf("Index out of range\n");
     }   
@@ -65,9 +65,9 @@ void insert_node_index(Node* node, int index){
     }
 }
 
-void insert_node_sorted(Node* node){
-    Node* curr = head;
-    Node* prev;
+void insert_node_sorted(Linked_List* node){
+    Linked_List* curr = head;
+    Linked_List* prev;
     if (head == NULL){
         head = node;
         tail = node;
@@ -94,8 +94,8 @@ void insert_node_sorted(Node* node){
 }
 
 //On success, return Node. On failure return NULL
-Node* pop_node(){
-    Node* curr = head;
+Linked_List* pop_node(){
+    Linked_List* curr = head;
     if(head == NULL){
         return NULL;
     }
@@ -104,9 +104,9 @@ Node* pop_node(){
     return curr;
 }
 
-Node* pop_last_node(){
-    Node* curr = head;
-    Node* prev;
+Linked_List* pop_last_node(){
+    Linked_List* curr = head;
+    Linked_List* prev;
     if(head == NULL){
         printf("Error: Cannot pop, no nodes in list");
         return NULL;
@@ -127,9 +127,9 @@ Node* pop_last_node(){
     return curr;
 }
 
-Node* remove_node(Node* node){
-    Node* curr = head;
-    Node* prev;
+Linked_List* remove_node(Linked_List* node){
+    Linked_List* curr = head;
+    Linked_List* prev;
     if (head == NULL){
         printf("Error: Cannot remove Node, no nodes in list");
         return NULL;
@@ -162,7 +162,7 @@ Node* remove_node(Node* node){
 
 
 //TODO
-Node* remove_node_index(int index){
+Linked_List* remove_node_index(int index){
     if (head == NULL){
 
     }
@@ -173,7 +173,7 @@ Node* remove_node_index(int index){
 }
 
 //TODO
-Node* remove_node_data(int data);
+Linked_List* remove_node_data(int data);
 
 
 int get_list_size(){
@@ -181,7 +181,7 @@ int get_list_size(){
 }
 
 void print_list(){
-    Node* curr = head;
+    Linked_List* curr = head;
     for (int i = 0; i < get_list_size(); i++){
         printf("index at %d = %d\n", i, curr->data);
         curr = curr->next;
@@ -189,7 +189,7 @@ void print_list(){
 }
 
 void free_nodes(){
-    Node* freeNode;
+    Linked_List* freeNode;
     freeNode = head;
     while (freeNode != NULL){
         freeNode = pop_node();

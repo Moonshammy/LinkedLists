@@ -3,208 +3,76 @@
 
 #include "linked_list.h"
 
-typedef struct Node{
+typedef struct Linked_List{
     int data;
-    struct node* next;
-} Node;
+    Linked_List* next;
+    size_t* size;
+} Linked_List;
 
-static Node* head;
+static Linked_List* head;
 static int list_size;
 
-Node* new_node(int data){
-    Node* newNode = calloc(1, sizeof(Node));
-    newNode->data = data;
-    newNode->next = NULL;
+Linked_List* ll_new(int data){
+    Linked_List *head = calloc(1, sizeof(Linked_List));
+    size_t *size_location = calloc(1, sizeof(size_t));
+    head->size = size_location;
+    *head->size = 1;
+    head->next = NULL;
+    head->data = data;
+    return head;
 }
 
-void insert_node(Node* node){
-    Node* curr = head;
-    if (head == NULL){
-        head = node;
-        list_size = 1;
-    }
-    else{
-        while (curr->next != NULL){
-            curr = curr->next;
-        }
-        curr->next = node;
-        list_size++;
-    }
+Linked_List* ll_new_node(int data){
+    Linked_List* new_node = calloc(1, sizeof(Linked_List));
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
 }
 
-void insert_node_index(Node* node, int index){
-    Node* curr = head;
-    Node* prev;
-    if (get_list_size() < index){
-        printf("Index %d out of range\n", index);
+int ll_push(Linked_List* list, int data){
+    if (!list){
+        return -1;
     }
-    else if (head == NULL){
-        head = node;
-    }
-    else if (index == 0){
-        node->next = curr;
-        head = node;
-    }
-    else{
-        for (int i = 0; i < index; i++){
-            prev = curr;
-            curr = curr->next;
-        }
-        prev->next = node;
-        node->next = curr;
-    }
-}
-
-void insert_node_sorted(Node* node){
-    Node* curr = head;
-    Node* prev;
-    if (head == NULL){
-        head = node;
-        list_size++;
-    }
-    //If node at 0 case;
-    else if(head->data > node->data){
-        node->next = head;
-        head = node;
-        list_size++;
-    }
-    else {
-        while (curr->data < node->data && curr->next != NULL){
-            prev = curr;
-            curr = curr->next;
-        }
-        node->next = curr;
-        prev->next = node;
-        list_size++;
-    }
-}
-
-//On success, return Node. On failure return NULL
-//Any Node not re-inserted MUST BE free(node);
-
-Node* pop_node(){
-    if (head != NULL){
-        Node* node = head;
-        head = head->next;
-        list_size--;
-        return node;
-    }
-    return NULL;
-}
-
-//Return removed Node
-Node* pop_last_node(){
-    Node* curr = head;
-    Node* prev;
-    if (head == NULL){
-        return NULL;
-    }
-    else if (head->next == NULL){
-        head == NULL;
-        list_size--;
-        return NULL;
-    }
-
-    while (curr->next != NULL){
-        prev = curr;
+    Linked_List* curr = list;
+    Linked_List* node = ll_new_node(data);
+    node->size = list->size;
+    while(curr->next != NULL){
         curr = curr->next;
     }
-    prev->next = NULL;
-    list_size--;
-    return curr;
+    curr->next = node;
+    *list->size += 1;
+    return 0;
 }
 
-Node* remove_node(Node* node){
-    Node* curr = head;
-    Node* prev;
-    if (head != NULL){
-        //Checking if head matches. There is no prev node, so the following loop wouldn't work.
-        if (node == curr){
-            head = curr->next;
-            list_size--;
-            return curr;
-        }
-        while (curr != NULL){
-            if (node->data == curr->data){
-                prev->next = curr->next;
-                return curr;
-            }
-            prev = curr;
-        }
+int ll_insert(Linked_List* list, int index, int data){
+    if(!list){
+        return -1;
     }
+    if (index >= (int)*list->size || index < 0){
+        return -1;
+    }
+    if (index || data){}
+    return -1;
 }
 
-Node* remove_node_index(int index){
-    Node* curr = head;
-    Node* prev;
-    if (head == NULL){
-        printf("No Nodes in the list\n");
-        return NULL;
-    }
-    else if (index == 0){
-        head = head->next;
-        list_size--;
-        return curr;
-    }
-    else if (get_list_size() < index){
-        printf("Index %d is out of range\n", index);
-        return NULL;
-    }
-    for (int i = 0; i < index; i++){
-        prev = curr;
-        curr = curr->next;
-    }
-    prev->next = curr->next;
-    list_size--;
-    return curr;
+size_t ll_get_size(Linked_List* list){
+    return list->size;
 }
 
-Node* remove_node_data(int data){
-    Node* curr = head;
-    Node* prev;
-    if (head == NULL){
-        printf("No data in list");
-        return NULL;
+void ll_print(Linked_List* list){
+    if (!list){
+        return;
     }
-    else if(head->data == data){
-        head = head->next;
-        list_size--;
-        return curr;
-    }
-    else{
-        while (curr->data != data){
-            prev = curr;
-            curr = curr->next;
-            if(curr== NULL){
-                printf("Data: %d, was not in the list\n", data);
-                return NULL;
-            }
-        }
-        prev->next = curr->next;
-        list_size--;
-        return curr;
-    }
-}
-
-int get_list_size(){
-    return list_size;
-}
-
-void print_list(){
-    Node* curr = head;
-    int i = 0;
+    Linked_List* curr = list;
+    printf("[");
     while(curr != NULL){
-        printf("index at %d = %d\n", i, curr->data);
-        i++;
+        if (curr->next == NULL){
+            printf("%d", curr->data);
+        }
+        else{
+            printf("%d,", curr->data);
+        }
         curr = curr->next;
     }
-}
-
-void free_nodes(){
-    Node* freeNode;
-    freeNode = head;
-    while (freeNode != NULL){
-        freeNode = pop_node();
-        free(freeNode);
-    }
+    printf("]\n");
 }

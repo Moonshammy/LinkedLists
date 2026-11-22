@@ -1,19 +1,20 @@
-typedef struct Node Node;
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 
-Node* new_node(int data); //Returns new node
-void insert_node(Node* node);
-void insert_node_index(Node* node, int index); 
-void insert_node_sorted(Node* node);
+#include <stdio.h>
 
-//On success, return Node. On failure return NULL
-Node* pop_node(); //Return removed Node
-Node* remove_node(Node* node);
-Node* remove_node_index(int index);
-Node* remove_node_data(int data);
-Node* pop_last_node();
+typedef struct Linked_List Linked_List;
+
+Linked_List* LL_create(void);
+Linked_List* ll_create_data(int data);
+Linked_List* ll_new_node(int data);
+int ll_push(Linked_List* list, int data);
+int ll_insert(Linked_List* list, int index, int data);
+
+size_t ll_get_size(Linked_List* list);
+
+void ll_print(Linked_List* list);
 
 
-int get_list_size();
-void print_list();
 
-void free_nodes();
+#endif
